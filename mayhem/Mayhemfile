@@ -1,0 +1,15 @@
+# Mayhem target: python-bibtexparser BibTeX parser (Atheris/libFuzzer harness).
+# The cmd binary is the compiled ELF launcher that drives mayhem/fuzz_load.py; Atheris
+# instruments the bibtexparser library so the run records coverage (edges).
+# Target name `loader-fuzz` is the historical name (preserves the Mayhem run history).
+project: python-bibtexparser
+target: loader-fuzz
+
+cmds:
+  - cmd: /mayhem/bibtexparser_fuzzer
+    libfuzzer: true
+
+# Seed corpus of representative .bib files (server tar + canonical per-target path).
+testsuite:
+  - https://$MAYHEM_DOMAIN/$MAYHEM_PROJECT/$MAYHEM_TARGET/testsuite.tar
+  - file://mayhem/loader-fuzz/testsuite
